@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Device Detail</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #111;
+      color: #eee;
+    }
+    header {
+      padding: 20px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
+    }
+    main {
+      padding: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .meta-item {
+      background: #151515;
+      border: 1px solid #2f2f2f;
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .meta-label {
+      font-size: 13px;
+      color: #aaa;
+      margin-bottom: 6px;
+    }
+    .bench-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .bench-card {
+      background: #151515;
+      border: 1px solid #2f2f2f;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .bench-name {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 8px;
+    }
+    .bench-score {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+    .other-device {
+      display: block;
+      padding: 12px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      background: #151515;
+      color: #eee;
+      text-decoration: none;
+    }
+    .other-device:hover {
+      background: #1d1d1d;
+    }
+    .small {
+      color: #aaa;
+      font-size: 13px;
+    }
+    a {
+      color: #8ecbff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .nav {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .nav a {
+      display: inline-block;
+      padding: 10px 14px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #1a1a1a;
+      color: #eee;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="pageTitle">端末詳細</h1>
+    <p class="small">個別ベンチマークページ</p>
+  </header>
+
+  <main>
+    <div class="nav">
+      <a href="index.html">一覧に戻る</a>
+    </div>
+
+    <section class="card" id="deviceInfo">
+      <p>読み込み中...</p>
+    </section>
+
+    <section class="card">
+      <h2>ベンチマーク結果</h2>
+      <div class="bench-grid" id="benchmarkGrid"></div>
+    </section>
+
+    <section class="card">
+      <h2>同カテゴリの他機種</h2>
+      <div class="list" id="relatedDevices"></div>
+    </section>
+  </main>
+
+  <script>
+    let devices = [];
+
+    const categoryLabels = {
+      smartphone: "スマホ",
+      pc: "PC",
+      tablet: "タブレット",
+      handheld: "携帯ゲーム機",
+      other: "その他"
+    };
+
+    const benchmarkLabels = {
+      antutu: "AnTuTu",
+      custom_bench: "自作ベンチ",
+      cinebench_r15: "CineBench R15",
+      html5_web: "HTML5 Web",
+      geekbench6_single: "Geekbench 6 Single",
+      geekbench6_multi: "Geekbench 6 Multi"
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function formatValue(value) {
+      return Number(value).toLocaleString();
+    }
+
+    function getDeviceIdFromUrl() {
+      const params = new URLSearchParams(location.search);
+      return params.get("id");
+    }
+
+    function renderDeviceInfo(device) {
+      document.getElementById("pageTitle").textContent = device.name || "端末詳細";
+
+      document.getElementById("deviceInfo").innerHTML = `
+        <h2>${escapeHtml(device.name ?? "-")}</h2>
+        <div class="meta">
+          <div class="meta-item">
+            <div class="meta-label">分類</div>
+            <div>${escapeHtml(categoryLabels[device.category] || device.category || "-")}</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">メーカー</div>
+            <div>${escapeHtml(device.manufacturer ?? "-")}</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">SoC / CPU</div>
+            <div>${escapeHtml(device.soc ?? "-")}</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">RAM</div>
+            <div>${device.ram_gb ? escapeHtml(String(device.ram_gb) + "GB") : "-"}</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">OS</div>
+            <div>${escapeHtml(device.os ?? "-")}</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">備考</div>
+            <div>${escapeHtml(device.notes ?? "-")}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderBenchmarks(device) {
+      const grid = document.getElementById("benchmarkGrid");
+      const entries = Object.entries(device.benchmarks || {})
+        .filter(([_, value]) => value !== null && value !== undefined);
+
+      if (entries.length === 0) {
+        grid.innerHTML = `<p>表示できるベンチマーク結果がありません</p>`;
+        return;
+      }
+
+      grid.innerHTML = entries.map(([key, value]) => `
+        <div class="bench-card">
+          <div class="bench-name">${escapeHtml(benchmarkLabels[key] || key)}</div>
+          <div class="bench-score">${escapeHtml(formatValue(value))}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderRelatedDevices(currentDevice) {
+      const container = document.getElementById("relatedDevices");
+
+      const related = devices.filter(device =>
+        device.id !== currentDevice.id &&
+        device.category === currentDevice.category
+      );
+
+      if (related.length === 0) {
+        container.innerHTML = `<p>同カテゴリの他機種はありません</p>`;
+        return;
+      }
+
+      container.innerHTML = related.map(device => `
+        <a class="other-device" href="device.html?id=${encodeURIComponent(device.id)}">
+          <strong>${escapeHtml(device.name ?? "-")}</strong><br>
+          <span class="small">${escapeHtml(device.soc ?? "-")}</span>
+        </a>
+      `).join("");
+    }
+
+    function renderNotFound() {
+      document.getElementById("pageTitle").textContent = "端末が見つかりません";
+      document.getElementById("deviceInfo").innerHTML = `<p>指定された端末が見つかりませんでした。</p>`;
+      document.getElementById("benchmarkGrid").innerHTML = "";
+      document.getElementById("relatedDevices").innerHTML = "";
+    }
+
+    async function loadData() {
+      try {
+        const res = await fetch("./devices.json");
+        devices = await res.json();
+
+        const id = getDeviceIdFromUrl();
+        const device = devices.find(d => d.id === id);
+
+        if (!device) {
+          renderNotFound();
+          return;
+        }
+
+        renderDeviceInfo(device);
+        renderBenchmarks(device);
+        renderRelatedDevices(device);
+      } catch (e) {
+        renderNotFound();
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
