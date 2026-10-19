@@ -2,7 +2,7 @@
   {
     "id": "gb6-18593577",
     "name": "Hewlett-Packard HP Pavilion 15 Notebook PC",
-    "category": "",
+    "category": "PC",
     "manufacturer": "Hewlett-Packard",
     "soc": "Intel Core i5-4200U",
     "ram_gb": null,
@@ -20,7 +20,7 @@
   {
     "id": "gb6-18578463",
     "name": "MouseComputer Co.,Ltd. lstNX3-15HP038",
-    "category": "",
+    "category": "PC",
     "manufacturer": "MouseComputer",
     "soc": "Intel Core i3-8130U",
     "ram_gb": null,
@@ -38,7 +38,7 @@
   {
     "id": "gb6-18571268",
     "name": "FUJITSU FMVLMG20CW",
-    "category": "laptop",
+    "category": "PC",
     "manufacturer": "FUJITSU",
     "soc": "Intel Atom N450",
     "ram_gb": null,
@@ -74,7 +74,7 @@
   {
     "id": "gb6-15995463",
     "name": "Game Console R36S",
-    "category": "handheld_game_console",
+    "category": "携帯ゲーム機",
     "manufacturer": null,
     "soc": "ARM ARMv8",
     "ram_gb": null,
@@ -200,7 +200,7 @@
   {
     "id": "TAB-A04-BR3",
     "name": "チャレンジタッチ3",
-    "category": "smartphone",
+    "category": "tablet",
     "manufacturer": null,
     "soc": "MediaTek MT8167",
     "ram_gb": 2,
@@ -218,7 +218,7 @@
   {
     "id": "d710",
     "name": "Qosmio D710/T6AB",
-    "category": "smartphone",
+    "category": "PC",
     "manufacturer": null,
     "soc": "i5 CPU M 460",
     "ram_gb": 4,
