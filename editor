@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benchmark JSON Editor</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #111;
+      color: #eee;
+    }
+    header {
+      padding: 20px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
+    }
+    main {
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #bbb;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #222;
+      color: #eee;
+    }
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .button-row button,
+    .button-row label {
+      width: auto;
+      cursor: pointer;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #333;
+      border-radius: 12px;
+      margin-top: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1200px;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #2a2a2a;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #1b1b1b;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #0d0d0d;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 16px;
+      overflow: auto;
+    }
+    .success {
+      background: #1f5f3a;
+    }
+    .danger {
+      background: #7a2222;
+    }
+    .secondary {
+      background: #2a2a2a;
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 8px;
+    }
+    .small {
+      font-size: 13px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Benchmark JSON Editor</h1>
+    <p class="small">devices.json 作成用</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>端末データ入力</h2>
+      <div class="grid">
+        <div>
+          <label for="id">ID</label>
+          <input id="id" type="text" placeholder="galaxy-s22">
+        </div>
+        <div>
+          <label for="name">端末名</label>
+          <input id="name" type="text" placeholder="Galaxy S22">
+        </div>
+        <div>
+          <label for="category">分類</label>
+          <select id="category">
+            <option value="smartphone">スマホ</option>
+            <option value="pc">PC</option>
+            <option value="tablet">タブレット</option>
+            <option value="handheld">携帯ゲーム機</option>
+            <option value="other">その他</option>
+          </select>
+        </div>
+        <div>
+          <label for="manufacturer">メーカー</label>
+          <input id="manufacturer" type="text" placeholder="Samsung">
+        </div>
+        <div>
+          <label for="soc">SoC / CPU</label>
+          <input id="soc" type="text" placeholder="Snapdragon 8 Gen 1">
+        </div>
+        <div>
+          <label for="ram">RAM (GB)</label>
+          <input id="ram" type="number" placeholder="8">
+        </div>
+        <div>
+          <label for="os">OS</label>
+          <input id="os" type="text" placeholder="Android 14 / Windows 11">
+        </div>
+        <div>
+          <label for="antutu">AnTuTu</label>
+          <input id="antutu" type="number" placeholder="1200000">
+        </div>
+        <div>
+          <label for="customBench">自作ベンチ</label>
+          <input id="customBench" type="number" placeholder="8450">
+        </div>
+        <div>
+          <label for="cinebenchR15">CineBench R15</label>
+          <input id="cinebenchR15" type="number" placeholder="560">
+        </div>
+        <div>
+          <label for="html5Web">HTML5 Web</label>
+          <input id="html5Web" type="number" placeholder="910">
+        </div>
+        <div>
+          <label for="gb6Single">Geekbench 6 Single</label>
+          <input id="gb6Single" type="number" placeholder="1650">
+        </div>
+        <div>
+          <label for="gb6Multi">Geekbench 6 Multi</label>
+          <input id="gb6Multi" type="number" placeholder="3900">
+        </div>
+      </div>
+
+      <div style="margin-top: 12px;">
+        <label for="notes">備考</label>
+        <textarea id="notes" placeholder="測定条件など"></textarea>
+      </div>
+
+      <div class="button-row">
+        <button class="success" onclick="addDevice()">追加 / 上書き</button>
+        <button onclick="autoGenerateId()">ID自動生成</button>
+        <button onclick="clearForm()">入力クリア</button>
+        <button onclick="fillSample()">サンプル入力</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>編集データ一覧</h2>
+      <div class="button-row">
+        <button onclick="downloadJson()">devices.json を保存</button>
+        <button onclick="copyJson()">JSONをコピー</button>
+        <label class="secondary">
+          JSONを読み込む
+          <input type="file" accept=".json,application/json" onchange="importJson(event)" style="display:none;">
+        </label>
+        <button class="danger" onclick="clearAllData()">全削除</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>端末名</th>
+              <th>分類</th>
+              <th>SoC / CPU</th>
+              <th>RAM</th>
+              <th>AnTuTu</th>
+              <th>自作ベンチ</th>
+              <th>CineBench R15</th>
+              <th>HTML5 Web</th>
+              <th>GB6 Single</th>
+              <th>GB6 Multi</th>
+              <th>備考</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>生成JSON</h2>
+      <pre id="jsonPreview">[]</pre>
+    </section>
+  </main>
+
+  <script>
+    let devices = [];
+
+    function slugify(text) {
+      return (text || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^\wぁ-んァ-ン一-龯ー\s-]/g, "")
+        .replace(/\s+/g, "-");
+    }
+
+    function toNumberOrNull(value) {
+      if (value === "" || value === null || value === undefined) return null;
+      const num = Number(value);
+      return Number.isNaN(num) ? null : num;
+    }
+
+    function formatValue(value) {
+      return value === null || value === undefined ? "-" : Number(value).toLocaleString();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function escapeAttr(str) {
+      return escapeHtml(str);
+    }
+
+    function autoGenerateId() {
+      const name = document.getElementById("name").value.trim();
+      if (!name) {
+        alert("端末名を入力してから使ってください");
+        return;
+      }
+      document.getElementById("id").value = slugify(name);
+    }
+
+    function getFormData() {
+      const id = document.getElementById("id").value.trim();
+      const name = document.getElementById("name").value.trim();
+
+      if (!name) {
+        alert("端末名を入力してください");
+        return null;
+      }
+
+      const finalId = id || slugify(name);
+
+      if (!finalId) {
+        alert("IDを入力するか、端末名から生成できるようにしてください");
+        return null;
+      }
+
+      return {
+        id: finalId,
+        name,
+        category: document.getElementById("category").value,
+        manufacturer: document.getElementById("manufacturer").value.trim() || null,
+        soc: document.getElementById("soc").value.trim() || null,
+        ram_gb: toNumberOrNull(document.getElementById("ram").value),
+        os: document.getElementById("os").value.trim() || null,
+        benchmarks: {
+          antutu: toNumberOrNull(document.getElementById("antutu").value),
+          custom_bench: toNumberOrNull(document.getElementById("customBench").value),
+          cinebench_r15: toNumberOrNull(document.getElementById("cinebenchR15").value),
+          html5_web: toNumberOrNull(document.getElementById("html5Web").value),
+          geekbench6_single: toNumberOrNull(document.getElementById("gb6Single").value),
+          geekbench6_multi: toNumberOrNull(document.getElementById("gb6Multi").value)
+        },
+        notes: document.getElementById("notes").value.trim() || null
+      };
+    }
+
+    function addDevice() {
+      const data = getFormData();
+      if (!data) return;
+
+      const existingIndex = devices.findIndex(d => d.id === data.id);
+      if (existingIndex >= 0) {
+        devices[existingIndex] = data;
+      } else {
+        devices.push(data);
+      }
+
+      clearForm();
+      renderTable();
+      updateJsonPreview();
+    }
+
+    function clearForm() {
+      document.getElementById("id").value = "";
+      document.getElementById("name").value = "";
+      document.getElementById("category").value = "smartphone";
+      document.getElementById("manufacturer").value = "";
+      document.getElementById("soc").value = "";
+      document.getElementById("ram").value = "";
+      document.getElementById("os").value = "";
+      document.getElementById("antutu").value = "";
+      document.getElementById("customBench").value = "";
+      document.getElementById("cinebenchR15").value = "";
+      document.getElementById("html5Web").value = "";
+      document.getElementById("gb6Single").value = "";
+      document.getElementById("gb6Multi").value = "";
+      document.getElementById("notes").value = "";
+    }
+
+    function fillSample() {
+      document.getElementById("id").value = "galaxy-s22";
+      document.getElementById("name").value = "Galaxy S22";
+      document.getElementById("category").value = "smartphone";
+      document.getElementById("manufacturer").value = "Samsung";
+      document.getElementById("soc").value = "Snapdragon 8 Gen 1";
+      document.getElementById("ram").value = "8";
+      document.getElementById("os").value = "Android 14";
+      document.getElementById("antutu").value = "1200000";
+      document.getElementById("customBench").value = "8450";
+      document.getElementById("cinebenchR15").value = "";
+      document.getElementById("html5Web").value = "910";
+      document.getElementById("gb6Single").value = "1650";
+      document.getElementById("gb6Multi").value = "3900";
+      document.getElementById("notes").value = "通常モードで測定";
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+
+      for (const device of devices) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${escapeHtml(device.id ?? "-")}</td>
+          <td>${escapeHtml(device.name ?? "-")}</td>
+          <td>${escapeHtml(device.category ?? "-")}</td>
+          <td>${escapeHtml(device.soc ?? "-")}</td>
+          <td>${device.ram_gb ?? "-"}</td>
+          <td>${formatValue(device.benchmarks?.antutu)}</td>
+          <td>${formatValue(device.benchmarks?.custom_bench)}</td>
+          <td>${formatValue(device.benchmarks?.cinebench_r15)}</td>
+          <td>${formatValue(device.benchmarks?.html5_web)}</td>
+          <td>${formatValue(device.benchmarks?.geekbench6_single)}</td>
+          <td>${formatValue(device.benchmarks?.geekbench6_multi)}</td>
+          <td>${escapeHtml(device.notes ?? "-")}</td>
+          <td>
+            <button onclick="editDevice('${escapeAttr(device.id)}')">編集</button>
+            <button class="danger" onclick="deleteDevice('${escapeAttr(device.id)}')">削除</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function editDevice(id) {
+      const device = devices.find(d => d.id === id);
+      if (!device) return;
+
+      document.getElementById("id").value = device.id ?? "";
+      document.getElementById("name").value = device.name ?? "";
+      document.getElementById("category").value = device.category ?? "smartphone";
+      document.getElementById("manufacturer").value = device.manufacturer ?? "";
+      document.getElementById("soc").value = device.soc ?? "";
+      document.getElementById("ram").value = device.ram_gb ?? "";
+      document.getElementById("os").value = device.os ?? "";
+      document.getElementById("antutu").value = device.benchmarks?.antutu ?? "";
+      document.getElementById("customBench").value = device.benchmarks?.custom_bench ?? "";
+      document.getElementById("cinebenchR15").value = device.benchmarks?.cinebench_r15 ?? "";
+      document.getElementById("html5Web").value = device.benchmarks?.html5_web ?? "";
+      document.getElementById("gb6Single").value = device.benchmarks?.geekbench6_single ?? "";
+      document.getElementById("gb6Multi").value = device.benchmarks?.geekbench6_multi ?? "";
+      document.getElementById("notes").value = device.notes ?? "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function deleteDevice(id) {
+      if (!confirm("削除しますか？")) return;
+      devices = devices.filter(d => d.id !== id);
+      renderTable();
+      updateJsonPreview();
+    }
+
+    function clearAllData() {
+      if (!confirm("全データを削除しますか？")) return;
+      devices = [];
+      renderTable();
+      updateJsonPreview();
+    }
+
+    function updateJsonPreview() {
+      document.getElementById("jsonPreview").textContent = JSON.stringify(devices, null, 2);
+    }
+
+    function downloadJson() {
+      const blob = new Blob([JSON.stringify(devices, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "devices.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyJson() {
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(devices, null, 2));
+        alert("JSONをコピーしました");
+      } catch {
+        alert("コピーに失敗しました");
+      }
+    }
+
+    function importJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (!Array.isArray(parsed)) {
+            alert("JSONの形式が正しくありません");
+            return;
+          }
+          devices = parsed;
+          renderTable();
+          updateJsonPreview();
+        } catch {
+          alert("JSONの読み込みに失敗しました");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    renderTable();
+    updateJsonPreview();
+  </script>
+</body>
+</html>
