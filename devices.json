@@ -2,7 +2,7 @@
   {
     "id": "gb6-18593577",
     "name": "Hewlett-Packard HP Pavilion 15 Notebook PC",
-    "category": "laptop",
+    "category": "",
     "manufacturer": "Hewlett-Packard",
     "soc": "Intel Core i5-4200U",
     "ram_gb": null,
@@ -10,8 +10,8 @@
     "benchmarks": {
       "antutu": null,
       "custom_bench": null,
-      "cinebench_r15": null,
-      "html5_web": null,
+      "cinebench_r15": 226,
+      "html5_web": 112000,
       "geekbench6_single": 797,
       "geekbench6_multi": 1622
     },
@@ -20,7 +20,7 @@
   {
     "id": "gb6-18578463",
     "name": "MouseComputer Co.,Ltd. lstNX3-15HP038",
-    "category": "laptop",
+    "category": "",
     "manufacturer": "MouseComputer",
     "soc": "Intel Core i3-8130U",
     "ram_gb": null,
@@ -28,8 +28,8 @@
     "benchmarks": {
       "antutu": null,
       "custom_bench": null,
-      "cinebench_r15": null,
-      "html5_web": null,
+      "cinebench_r15": 353,
+      "html5_web": 127564,
       "geekbench6_single": 1240,
       "geekbench6_multi": 2297
     },
@@ -56,16 +56,16 @@
   {
     "id": "gb6-18570230",
     "name": "Micro-Star International Co., Ltd. MS-7D48",
-    "category": "desktop",
+    "category": "pc",
     "manufacturer": "Micro-Star International",
     "soc": "Intel Core i3-13100",
-    "ram_gb": null,
+    "ram_gb": 16,
     "os": "Linux",
     "benchmarks": {
       "antutu": null,
-      "custom_bench": null,
-      "cinebench_r15": null,
-      "html5_web": null,
+      "custom_bench": 10,
+      "cinebench_r15": 1125,
+      "html5_web": 321000,
       "geekbench6_single": 2473,
       "geekbench6_multi": 8334
     },
@@ -98,8 +98,8 @@
     "ram_gb": null,
     "os": "Android",
     "benchmarks": {
-      "antutu": null,
-      "custom_bench": null,
+      "antutu": 471388,
+      "custom_bench": 2.5,
       "cinebench_r15": null,
       "html5_web": null,
       "geekbench6_single": 688,
@@ -110,7 +110,7 @@
   {
     "id": "gb6-13610563",
     "name": "NEC PC-VK25MXZCC",
-    "category": "laptop",
+    "category": "pc",
     "manufacturer": "NEC",
     "soc": "Intel Core i5-2520M",
     "ram_gb": null,
@@ -118,8 +118,8 @@
     "benchmarks": {
       "antutu": null,
       "custom_bench": null,
-      "cinebench_r15": null,
-      "html5_web": null,
+      "cinebench_r15": 244,
+      "html5_web": 128000,
       "geekbench6_single": 568,
       "geekbench6_multi": 1118
     },
@@ -134,8 +134,8 @@
     "ram_gb": null,
     "os": "Android",
     "benchmarks": {
-      "antutu": null,
-      "custom_bench": null,
+      "antutu": 420364,
+      "custom_bench": 2.6,
       "cinebench_r15": null,
       "html5_web": null,
       "geekbench6_single": 847,
@@ -144,21 +144,147 @@
     "notes": "architecture=AArch64; CPU 1958 MHz (8 cores)"
   },
   {
-    "id": "gb6-13610519",
-    "name": "Micro-Star International Co., Ltd. MS-7D48",
-    "category": "desktop",
-    "manufacturer": "Micro-Star International",
-    "soc": "Intel Core i3-13100",
-    "ram_gb": null,
-    "os": "Windows",
+    "id": "nexus-5",
+    "name": "Nexus5",
+    "category": "smartphone",
+    "manufacturer": "Google",
+    "soc": "Qualcomm Snapdragon 800",
+    "ram_gb": 2,
+    "os": null,
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": 1,
+      "cinebench_r15": null,
+      "html5_web": 55000,
+      "geekbench6_single": null,
+      "geekbench6_multi": null
+    },
+    "notes": null
+  },
+  {
+    "id": "nexus-7",
+    "name": "Nexus7",
+    "category": "tablet",
+    "manufacturer": "Google",
+    "soc": "Krait (Snapdragon S4 pro)",
+    "ram_gb": 2,
+    "os": null,
     "benchmarks": {
       "antutu": null,
       "custom_bench": null,
       "cinebench_r15": null,
-      "html5_web": null,
-      "geekbench6_single": 2386,
-      "geekbench6_multi": 7993
+      "html5_web": 24000,
+      "geekbench6_single": null,
+      "geekbench6_multi": null
     },
-    "notes": "architecture=x64; CPU 3391 MHz (4 cores)"
+    "notes": null
+  },
+  {
+    "id": "iphone12",
+    "name": "iPhone 12",
+    "category": "smartphone",
+    "manufacturer": "Apple",
+    "soc": null,
+    "ram_gb": null,
+    "os": null,
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": 223000,
+      "geekbench6_single": null,
+      "geekbench6_multi": null
+    },
+    "notes": null
+  },
+  {
+    "id": "TAB-A04-BR3",
+    "name": "チャレンジタッチ3",
+    "category": "smartphone",
+    "manufacturer": null,
+    "soc": "MediaTek MT8167",
+    "ram_gb": 2,
+    "os": null,
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": 52000,
+      "geekbench6_single": null,
+      "geekbench6_multi": null
+    },
+    "notes": null
+  },
+  {
+    "id": "d710",
+    "name": "Qosmio D710/T6AB",
+    "category": "smartphone",
+    "manufacturer": null,
+    "soc": "i5 CPU M 460",
+    "ram_gb": 4,
+    "os": "Windows 10",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": 2,
+      "cinebench_r15": 181,
+      "html5_web": 95206,
+      "geekbench6_single": null,
+      "geekbench6_multi": null
+    },
+    "notes": null
+  },
+  {
+    "id": "FARQ1701NZ",
+    "name": "Q507/RE",
+    "category": "pc",
+    "manufacturer": null,
+    "soc": "Atom x5-Z8550 1.44GHz",
+    "ram_gb": 4,
+    "os": null,
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": 134,
+      "html5_web": 68199,
+      "geekbench6_single": 183,
+      "geekbench6_multi": 568
+    },
+    "notes": null
+  },
+  {
+    "id": "NF75W",
+    "name": "元vista機",
+    "category": "pc",
+    "manufacturer": null,
+    "soc": "Core™2 Duo プロセッサー T7100",
+    "ram_gb": 4,
+    "os": null,
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": 1.9,
+      "cinebench_r15": 81,
+      "html5_web": 42951,
+      "geekbench6_single": null,
+      "geekbench6_multi": null
+    },
+    "notes": null
+  },
+  {
+    "id": "galaxy-s223",
+    "name": "Galaxy S22",
+    "category": "smartphone",
+    "manufacturer": "Samsung",
+    "soc": "Snapdragon 8 gen 1",
+    "ram_gb": 8,
+    "os": "Android 16",
+    "benchmarks": {
+      "antutu": 952277,
+      "custom_bench": 4.4,
+      "cinebench_r15": null,
+      "html5_web": 197373,
+      "geekbench6_single": 1034,
+      "geekbench6_multi": 3459
+    },
+    "notes": null
   }
 ]
