@@ -1,0 +1,20 @@
+[
+  {
+    "id": "a",
+    "name": "a",
+    "category": "smartphone",
+    "manufacturer": "a",
+    "soc": "a",
+    "ram_gb": 1,
+    "os": "1",
+    "benchmarks": {
+      "antutu": 1,
+      "custom_bench": 1,
+      "cinebench_r15": 1,
+      "html5_web": 1,
+      "geekbench6_single": 1,
+      "geekbench6_multi": 1
+    },
+    "notes": null
+  }
+]
