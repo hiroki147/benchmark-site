@@ -1,83 +1,164 @@
 [
   {
-    "gb6_id": 18593577,
-    "raw_name": "Hewlett-Packard HP Pavilion 15 Notebook PC",
-    "cpu_raw": "Intel Core i5-4200U 1959 MHz (2 cores)",
-    "platform": "Windows",
-    "architecture": "x64",
-    "single": 797,
-    "multi": 1622
+    "id": "gb6-18593577",
+    "name": "Hewlett-Packard HP Pavilion 15 Notebook PC",
+    "category": "laptop",
+    "manufacturer": "Hewlett-Packard",
+    "soc": "Intel Core i5-4200U",
+    "ram_gb": null,
+    "os": "Windows",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 797,
+      "geekbench6_multi": 1622
+    },
+    "notes": "architecture=x64; CPU 1959 MHz (2 cores)"
   },
   {
-    "gb6_id": 18578463,
-    "raw_name": "MouseComputer Co.,Ltd. lstNX3-15HP038",
-    "cpu_raw": "Intel Core i3-8130U 2193 MHz (2 cores)",
-    "platform": "Windows",
-    "architecture": "x64",
-    "single": 1240,
-    "multi": 2297
+    "id": "gb6-18578463",
+    "name": "MouseComputer Co.,Ltd. lstNX3-15HP038",
+    "category": "laptop",
+    "manufacturer": "MouseComputer",
+    "soc": "Intel Core i3-8130U",
+    "ram_gb": null,
+    "os": "Windows",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 1240,
+      "geekbench6_multi": 2297
+    },
+    "notes": "architecture=x64; CPU 2193 MHz (2 cores)"
   },
   {
-    "gb6_id": 18571268,
-    "raw_name": "FUJITSU FMVLMG20CW",
-    "cpu_raw": "Intel Atom N450 1667 MHz (1 cores)",
-    "platform": "Linux",
-    "architecture": "x64",
-    "single": 67,
-    "multi": 79
+    "id": "gb6-18571268",
+    "name": "FUJITSU FMVLMG20CW",
+    "category": "laptop",
+    "manufacturer": "FUJITSU",
+    "soc": "Intel Atom N450",
+    "ram_gb": null,
+    "os": "Linux",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 67,
+      "geekbench6_multi": 79
+    },
+    "notes": "architecture=x64; CPU 1667 MHz (1 core)"
   },
   {
-    "gb6_id": 18570230,
-    "raw_name": "Micro-Star International Co., Ltd. MS-7D48",
-    "cpu_raw": "Intel Core i3-13100 5800 MHz (4 cores)",
-    "platform": "Linux",
-    "architecture": "x64",
-    "single": 2473,
-    "multi": 8334
+    "id": "gb6-18570230",
+    "name": "Micro-Star International Co., Ltd. MS-7D48",
+    "category": "desktop",
+    "manufacturer": "Micro-Star International",
+    "soc": "Intel Core i3-13100",
+    "ram_gb": null,
+    "os": "Linux",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 2473,
+      "geekbench6_multi": 8334
+    },
+    "notes": "architecture=x64; CPU 5800 MHz (4 cores)"
   },
   {
-    "gb6_id": 15995463,
-    "raw_name": "Game Console R36S",
-    "cpu_raw": "ARM ARMv8 1296 MHz (4 cores)",
-    "platform": "Linux",
-    "architecture": "AArch64",
-    "single": 56,
-    "multi": 70
+    "id": "gb6-15995463",
+    "name": "Game Console R36S",
+    "category": "handheld_game_console",
+    "manufacturer": null,
+    "soc": "ARM ARMv8",
+    "ram_gb": null,
+    "os": "Linux",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 56,
+      "geekbench6_multi": 70
+    },
+    "notes": "architecture=AArch64; CPU 1296 MHz (4 cores)"
   },
   {
-    "gb6_id": 13612141,
-    "raw_name": "TINNO P780",
-    "cpu_raw": "Qualcomm Qualcomm 1804 MHz (8 cores)",
-    "platform": "Android",
-    "architecture": "AArch64",
-    "single": 688,
-    "multi": 1752
+    "id": "gb6-13612141",
+    "name": "TINNO P780",
+    "category": "smartphone",
+    "manufacturer": "TINNO",
+    "soc": "Qualcomm",
+    "ram_gb": null,
+    "os": "Android",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 688,
+      "geekbench6_multi": 1752
+    },
+    "notes": "architecture=AArch64; CPU 1804 MHz (8 cores)"
   },
   {
-    "gb6_id": 13610563,
-    "raw_name": "NEC PC-VK25MXZCC",
-    "cpu_raw": "Intel Core i5-2520M 3200 MHz (2 cores)",
-    "platform": "Linux",
-    "architecture": "x64",
-    "single": 568,
-    "multi": 1118
+    "id": "gb6-13610563",
+    "name": "NEC PC-VK25MXZCC",
+    "category": "laptop",
+    "manufacturer": "NEC",
+    "soc": "Intel Core i5-2520M",
+    "ram_gb": null,
+    "os": "Linux",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 568,
+      "geekbench6_multi": 1118
+    },
+    "notes": "architecture=x64; CPU 3200 MHz (2 cores)"
   },
   {
-    "gb6_id": 13610547,
-    "raw_name": "Xiaomi XIG03",
-    "cpu_raw": "ARM ARMv8 1958 MHz (8 cores)",
-    "platform": "Android",
-    "architecture": "AArch64",
-    "single": 847,
-    "multi": 1230
+    "id": "gb6-13610547",
+    "name": "Xiaomi XIG03",
+    "category": "smartphone",
+    "manufacturer": "Xiaomi",
+    "soc": "ARM ARMv8",
+    "ram_gb": null,
+    "os": "Android",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 847,
+      "geekbench6_multi": 1230
+    },
+    "notes": "architecture=AArch64; CPU 1958 MHz (8 cores)"
   },
   {
-    "gb6_id": 13610519,
-    "raw_name": "Micro-Star International Co., Ltd. MS-7D48",
-    "cpu_raw": "Intel Core i3-13100 3391 MHz (4 cores)",
-    "platform": "Windows",
-    "architecture": "x64",
-    "single": 2386,
-    "multi": 7993
+    "id": "gb6-13610519",
+    "name": "Micro-Star International Co., Ltd. MS-7D48",
+    "category": "desktop",
+    "manufacturer": "Micro-Star International",
+    "soc": "Intel Core i3-13100",
+    "ram_gb": null,
+    "os": "Windows",
+    "benchmarks": {
+      "antutu": null,
+      "custom_bench": null,
+      "cinebench_r15": null,
+      "html5_web": null,
+      "geekbench6_single": 2386,
+      "geekbench6_multi": 7993
+    },
+    "notes": "architecture=x64; CPU 3391 MHz (4 cores)"
   }
 ]
