@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benchmark Archive</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #111;
+      color: #eee;
+    }
+    header {
+      padding: 20px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
+    }
+    main {
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    input, select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #222;
+      color: #eee;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #333;
+      border-radius: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 900px;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #2a2a2a;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #1b1b1b;
+      cursor: pointer;
+      user-select: none;
+    }
+    tr:hover {
+      background: #181818;
+    }
+    a {
+      color: #8ecbff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .small {
+      color: #aaa;
+      font-size: 13px;
+    }
+    .empty {
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Benchmark Archive</h1>
+    <p class="small">端末ベンチマーク結果一覧</p>
+  </header>
+
+  <main>
+    <div class="controls">
+      <input id="searchInput" type="text" placeholder="端末名、SoC、OSで検索">
+      <select id="categoryFilter">
+        <option value="all">すべて</option>
+        <option value="smartphone">スマホ</option>
+        <option value="pc">PC</option>
+        <option value="tablet">タブレット</option>
+        <option value="handheld">携帯ゲーム機</option>
+        <option value="other">その他</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr id="tableHead"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    let devices = [];
+    let currentSortKey = "name";
+    let currentSortAsc = true;
+
+    const categoryLabels = {
+      all: "すべて",
+      smartphone: "スマホ",
+      pc: "PC",
+      tablet: "タブレット",
+      handheld: "携帯ゲーム機",
+      other: "その他"
+    };
+
+    const columnPresets = {
+      all: [
+        { key: "name", label: "端末名", type: "text" },
+        { key: "category", label: "分類", type: "text" },
+        { key: "soc", label: "SoC / CPU", type: "text" },
+        { key: "ram_gb", label: "RAM", type: "ram" },
+        { key: "custom_bench", label: "自作ベンチ", type: "benchmark" },
+        { key: "html5_web", label: "HTML5 Web", type: "benchmark" },
+        { key: "geekbench6_single", label: "GB6 Single", type: "benchmark" },
+        { key: "geekbench6_multi", label: "GB6 Multi", type: "benchmark" }
+      ],
+      smartphone: [
+        { key: "name", label: "端末名", type: "text" },
+        { key: "soc", label: "SoC", type: "text" },
+        { key: "ram_gb", label: "RAM", type: "ram" },
+        { key: "antutu", label: "AnTuTu", type: "benchmark" },
+        { key: "custom_bench", label: "自作ベンチ", type: "benchmark" },
+        { key: "html5_web", label: "HTML5 Web", type: "benchmark" },
+        { key: "geekbench6_single", label: "GB6 Single", type: "benchmark" },
+        { key: "geekbench6_multi", label: "GB6 Multi", type: "benchmark" }
+      ],
+      pc: [
+        { key: "name", label: "端末名", type: "text" },
+        { key: "soc", label: "CPU", type: "text" },
+        { key: "ram_gb", label: "RAM", type: "ram" },
+        { key: "cinebench_r15", label: "CineBench R15", type: "benchmark" },
+        { key: "custom_bench", label: "自作ベンチ", type: "benchmark" },
+        { key: "html5_web", label: "HTML5 Web", type: "benchmark" },
+        { key: "geekbench6_single", label: "GB6 Single", type: "benchmark" },
+        { key: "geekbench6_multi", label: "GB6 Multi", type: "benchmark" }
+      ],
+      tablet: [
+        { key: "name", label: "端末名", type: "text" },
+        { key: "soc", label: "SoC", type: "text" },
+        { key: "ram_gb", label: "RAM", type: "ram" },
+        { key: "antutu", label: "AnTuTu", type: "benchmark" },
+        { key: "custom_bench", label: "自作ベンチ", type: "benchmark" },
+        { key: "html5_web", label: "HTML5 Web", type: "benchmark" },
+        { key: "geekbench6_single", label: "GB6 Single", type: "benchmark" },
+        { key: "geekbench6_multi", label: "GB6 Multi", type: "benchmark" }
+      ],
+      handheld: [
+        { key: "name", label: "端末名", type: "text" },
+        { key: "soc", label: "SoC / CPU", type: "text" },
+        { key: "ram_gb", label: "RAM", type: "ram" },
+        { key: "custom_bench", label: "自作ベンチ", type: "benchmark" },
+        { key: "html5_web", label: "HTML5 Web", type: "benchmark" },
+        { key: "geekbench6_single", label: "GB6 Single", type: "benchmark" },
+        { key: "geekbench6_multi", label: "GB6 Multi", type: "benchmark" }
+      ],
+      other: [
+        { key: "name", label: "端末名", type: "text" },
+        { key: "soc", label: "SoC / CPU", type: "text" },
+        { key: "ram_gb", label: "RAM", type: "ram" },
+        { key: "custom_bench", label: "自作ベンチ", type: "benchmark" },
+        { key: "html5_web", label: "HTML5 Web", type: "benchmark" },
+        { key: "geekbench6_single", label: "GB6 Single", type: "benchmark" },
+        { key: "geekbench6_multi", label: "GB6 Multi", type: "benchmark" }
+      ]
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function formatValue(value) {
+      return value === null || value === undefined ? '<span class="empty">-</span>' : Number(value).toLocaleString();
+    }
+
+    function getBenchmarkValue(device, key) {
+      return device?.benchmarks?.[key] ?? null;
+    }
+
+    function getValue(device, key) {
+      if (["antutu", "custom_bench", "cinebench_r15", "html5_web", "geekbench6_single", "geekbench6_multi"].includes(key)) {
+        return getBenchmarkValue(device, key);
+      }
+      return device[key] ?? null;
+    }
+
+    function compareValues(a, b) {
+      if (a === null || a === undefined) return 1;
+      if (b === null || b === undefined) return -1;
+      if (typeof a === "number" && typeof b === "number") return a - b;
+      return String(a).localeCompare(String(b), "ja");
+    }
+
+    function setSort(key) {
+      if (currentSortKey === key) {
+        currentSortAsc = !currentSortAsc;
+      } else {
+        currentSortKey = key;
+        currentSortAsc = true;
+      }
+      renderTable();
+    }
+
+    function getCurrentColumns() {
+      const selectedCategory = document.getElementById("categoryFilter").value;
+      return columnPresets[selectedCategory] || columnPresets.all;
+    }
+
+    function renderHead() {
+      const head = document.getElementById("tableHead");
+      const columns = getCurrentColumns();
+
+      head.innerHTML = columns.map(col => {
+        return `<th onclick="setSort('${col.key}')">${escapeHtml(col.label)}</th>`;
+      }).join("");
+    }
+
+    function renderTable() {
+      renderHead();
+
+      const tbody = document.getElementById("tableBody");
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const category = document.getElementById("categoryFilter").value;
+      const columns = getCurrentColumns();
+
+      let filtered = devices.filter(device => {
+        const text = [
+          device.name,
+          device.category,
+          device.manufacturer,
+          device.soc,
+          device.os,
+          device.notes
+        ].join(" ").toLowerCase();
+
+        const matchSearch = text.includes(search);
+        const matchCategory = category === "all" || device.category === category;
+        return matchSearch && matchCategory;
+      });
+
+      filtered.sort((a, b) => {
+        const av = getValue(a, currentSortKey);
+        const bv = getValue(b, currentSortKey);
+        const result = compareValues(av, bv);
+        return currentSortAsc ? result : -result;
+      });
+
+      tbody.innerHTML = "";
+
+      for (const device of filtered) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = columns.map(col => {
+          if (col.key === "name") {
+            return `<td><a href="device.html?id=${encodeURIComponent(device.id)}">${escapeHtml(device.name ?? "-")}</a></td>`;
+          }
+
+          const value = getValue(device, col.key);
+
+          if (col.type === "ram") {
+            return `<td>${value ? escapeHtml(String(value) + "GB") : '<span class="empty">-</span>'}</td>`;
+          }
+
+          if (col.type === "benchmark") {
+            return `<td>${formatValue(value)}</td>`;
+          }
+
+          if (col.key === "category") {
+            return `<td>${escapeHtml(categoryLabels[value] || value || "-")}</td>`;
+          }
+
+          return `<td>${escapeHtml(value ?? "-")}</td>`;
+        }).join("");
+
+        tbody.appendChild(tr);
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${columns.length}">該当する端末がありません</td></tr>`;
+      }
+    }
+
+    async function loadData() {
+      try {
+        const res = await fetch("./devices.json");
+        devices = await res.json();
+        renderTable();
+      } catch (e) {
+        document.getElementById("tableBody").innerHTML =
+          '<tr><td colspan="8">devices.json を読み込めませんでした</td></tr>';
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", renderTable);
+    document.getElementById("categoryFilter").addEventListener("change", renderTable);
+
+    loadData();
+  </script>
+</body>
+</html>
